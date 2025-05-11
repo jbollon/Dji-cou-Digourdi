@@ -1,9 +1,68 @@
 Copyright © Jordy Bollon 2025
+All rights reserved / Tous droits réservés / Tutti i diritti riservati
 
-Tutti i diritti riservati.
+───────────────────────────────────────────────────────────────────────
+🇮🇹 ITALIANO
+───────────────────────────────────────────────────────────────────────
 
-Il contenuto di questo repository (codice sorgente LaTeX, Python, figure, tabelle, ecc...) è protetto da diritto d'autore.
+## Codice sorgente (LaTeX)
 
-È vietata la copia, la modifica, la distribuzione o qualsiasi altro uso non autorizzato del codice contenuto in questo progetto senza l'espresso consenso scritto dell'autore.
+Il codice contenuto in questo repository (file .tex, .py, immagini, script, tabelle, ecc...) è protetto da diritto d'autore.
 
-Questo repository è reso pubblico esclusivamente a scopo di consultazione e trasparenza.
+È vietata la copia, modifica, distribuzione o utilizzo non autorizzato del contenuto senza esplicita autorizzazione scritta dell'autore.
+
+Questo repository è reso pubblico solo a fini di consultazione.
+
+## File PDF
+
+Il file PDF generato dal codice LaTeX è distribuito con le seguenti condizioni:
+
+- ✅ Lettura personale consentita
+- 🚫 Stampa non autorizzata
+- ✅ Condivisione gratuita del file originale consentita
+- 🚫 Modifica o redistribuzione commerciale vietata
+
+───────────────────────────────────────────────────────────────────────
+🇬🇧 ENGLISH
+───────────────────────────────────────────────────────────────────────
+
+## Source Code (LaTeX)
+
+The content of this repository (LaTeX and python files, images, scripts, tables, etc...) is protected by copyright.
+
+Copying, modifying, distributing, or using the content without written permission from the author is strictly prohibited.
+
+This repository is public for consultation purposes only.
+
+## PDF file
+
+The PDF file generated from the LaTeX source is distributed under the following conditions:
+
+- ✅ Personal reading allowed
+- 🚫 Printing not allowed
+- ✅ Free sharing of the original file is permitted
+- 🚫 Modification or commercial redistribution is prohibited
+
+───────────────────────────────────────────────────────────────────────
+🇫🇷 FRANÇAIS
+───────────────────────────────────────────────────────────────────────
+
+## Code source (LaTeX)
+
+Le contenu de ce dépôt (fichiers .tex, .py, images, scripts, tableaux, etc...) est protégé par le droit d’auteur.
+
+Toute copie, modification, distribution ou utilisation non autorisée est strictement interdite sans l'accord écrit de l’auteur.
+
+Ce dépôt est rendu public uniquement à des fins de consultation.
+
+## Fichier PDF du livre
+
+Le fichier PDF généré depuis le code LaTeX est distribué sous les conditions suivantes :
+
+- ✅ Lecture personnelle autorisée
+- 🚫 Impression non autorisée
+- ✅ Partage gratuit du fichier original autorisé
+- 🚫 Modification ou redistribution commerciale interdite
+
+
+
