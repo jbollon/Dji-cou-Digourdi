@@ -1,0 +1,372 @@
+%%% Font, caratteri speciali e lingua %%% 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+%%% Per ringraziamenti a forma di cuore
+\usepackage{shapepar}
+\usepackage{lipsum} % For placeholder text
+
+%%% simbolo mail
+\usepackage{fontawesome}
+
+%\raggedbottom %annulla riempimento della pagina in verticale con spazi aggiuntivi tra capoversi o ambienti
+
+%%% Stile della pagina %%%
+\pagestyle{headings} %Ved. p. 35
+\usepackage{emptypage}
+%%%%%%%%%%%%%%%%
+
+\usepackage{graphicx}
+\usepackage[paperheight=9in, paperwidth=6in]{geometry}
+%\usepackage[a4paper]{geometry}
+\usepackage{afterpage}
+\usepackage[svgnames, dvipsnames]{xcolor}
+
+\usepackage{pagecolor}
+%\usepackage{gfsdidot}
+\usepackage{charter}
+\usepackage{qrcode}
+\usepackage{etoolbox}
+\renewenvironment{quote}{%
+   \list{}{%
+     \leftmargin0.1cm   % this is the adjusting screw
+     \rightmargin\leftmargin
+   }
+   \item\relax
+}
+{\endlist}
+
+
+\DeclareRobustCommand{\augiefamily}{%
+  \fontfamily{augie}\fontseries{m}\fontshape{n}\selectfont}
+\DeclareTextFontCommand{\textaugie}{\augiefamily}
+
+\usepackage[object=vectorian]{pgfornament}
+
+\usepackage{changepage}
+
+\usepackage{titling}
+\patchcmd{\titlepage}{\setcounter{page}\@ne}{}{\message {Successfully patched titlepage.}}{\message {Failed to patch titlepage.}}
+
+
+\usepackage[skins]{tcolorbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedication's package
+\usepackage{emerald}
+\pdfmapfile{=emerald.map}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtcbox{\whiteshadowbox}[1][]{%
+  enhanced, 
+  center upper,
+  fontupper=\large\bfseries,
+  drop fuzzy shadow southeast,
+  boxrule=0pt,
+  sharp corners,
+  colframe=blue,
+  colback=white!10,
+  before={\begin{center}},
+    after={\end{center}},
+  #1%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tocloft}
+
+
+%%% PACKAGES
+\usepackage{dramatist}
+
+\usepackage{titling}% Allows for multiple \titles within one document
+
+\let\oldmaketitle\maketitle
+\renewcommand{\maketitle}{%
+\newpage
+\phantomsection
+  \addcontentsline{toc}{chapter}{\thetitle}
+\oldmaketitle
+
+\markboth{\MakeUppercase{\thetitle}}{\MakeUppercase{\thetitle}}
+}
+
+\renewcommand{\casttitlename}{\includegraphics[scale=.14]{emoji/personadzo.png}\hspace{.5mm} Personadzo \includegraphics[scale=.15]{emoji/personadzo.png}}
+\renewcommand{\actname}{}
+\renewcommand{\scenename}{\textit{Scène}}
+\renewcommand{\printscenenum}{%
+\scenenumfont \thescene}
+
+\renewcommand{\StageDir}[1]{%
+    \begin{stagedir}
+    #1
+    \end{stagedir}
+    %\vspace*{.5cm}
+}
+
+\setlength{\afteractskip}{10pt}
+\setlength{\beforesceneskip}{10pt}
+\setlength{\aftersceneskip}{10pt}
+\setlength{\aftercasttitleskip}{20pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% FOTO COPERTINA
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fotocopertina}[4]{
+\cleardoublepage 
+%\newpage
+\vspace*{\fill}
+\begin{center}
+\textbf{\LARGE Le Digourdì di #4}
+\end{center}
+
+\begin{figure}[h]
+\centering
+\whiteshadowbox{
+\includegraphics[height=4cm,keepaspectratio]{#1}
+}
+\end{figure}
+\noindent
+\textbf{Drette}: \textit{#2.}
+\newline
+\newline
+\textbf{Achouatoù}: \textit{#3.}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% LINK PIESE
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\LinkPiese}[3]{
+\vspace*{\fill}
+\begin{figure}[h]
+\centering
+\foreach \x [count=\i] in {#1} {
+ \foreach \y [count=\j] in {#2} {
+  \ifnum\i=\j
+      \begin{subfigure}{#3\textwidth}
+  \centering
+    \video\hspace*{0.5mm} \textsc{\x}\hspace*{0.5mm} \video\\
+ \vspace*{2mm}
+\qrcode[hyperlink, height=0.75in]{\y}
+  \end{subfigure}%
+   \fi
+ }
+}
+\end{figure}
+\vspace*{\fill}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Souvenir
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\souvenir}[2]{
+\section*{Lo souvenir de l'atteur}
+\og #1\fg{}
+\newline
+\newline
+\hspace*{\fill} \textit{#2}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Queriaouzitoù
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\queriaouzitou}[1]{
+\subsection*{Queriaouzitoù}
+#1
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Scénographie
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Scenographie}{
+\newpage
+\begin{center}
+\Large
+\textsc{\scenographie\ \textit{Scénographie} \scenographie}
+\end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% CAST
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\name}[1]{eunterprétoù pe \textsc{#1}.}
+\newcommand{\nameF}[1]{eunterprétaye pe \textsc{#1}.}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Dérì le Rido
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\DeriLeRido}{
+%\newpage
+\cleardoublepage 
+\thispagestyle{empty}
+\begin{center}
+\textbf{\LARGE Derì le rid\'o}
+\end{center}
+\vspace{.2cm}
+}
+
+\usepackage{pgffor}
+\newcommand{\RoleNoms}[2]{
+\begin{center}
+ \textbf{#1}\\\vspace{.05cm}
+  \foreach \x in {#2} {
+    \x\\
+  	}
+  	\vspace{.01cm}
+\end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%  
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% VIDEO
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{float}
+\newcommand{\listvideos}{Liste di \textit{vidéo}}
+\newlistof{videos}{vds}{\listvideos}
+
+\newcommand{\StartVideo}[3]{
+\refstepcounter{videos}
+
+\begin{figure}[H]
+%\vspace*{-5pt}
+\StageDir{\hspace{2.5em}Teuppe \lemieBa .}
+\centering
+\foreach \x [count=\i] in {#1} {
+ \foreach \y [count=\j] in {#2} {
+  \ifnum\i=\j
+      \begin{subfigure}{.75\textwidth}
+  \centering
+    \video\hspace*{0.5mm} \textsc{\small\y}\hspace*{0.5mm} \video\\\vspace*{2mm}
+    \qrcode[hyperlink, height=0.5in]{\x}
+  \end{subfigure}%
+  \ifnum\i=1
+   \vspace{2.5mm}
+   \fi
+  \addcontentsline{vds}{section}{\y}
+   \fi
+ }
+}
+\ifstrempty{#3}%
+    {\StageDir{Lemie \lemieSi .}
+    {}
+%\vspace*{-5pt}
+}%
+\end{figure}%
+#3
+\ifstrempty{#3}
+    {}
+    {\vspace*{-2em} \StageDir{Lemie \lemieSi .}
+    }
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subcaption}
+%%%%%%%%%%%%%%%%%%%%%%%%
+% MEZEUCCA
+%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xparse}
+\usepackage{xstring}
+
+\newcommand{\listsounds}{Liste di mezeucque}
+\newlistof{sounds}{snd}{\listsounds}
+
+\NewDocumentCommand{\sound}{m m O{true}}{%
+  \refstepcounter{sounds}
+
+  \begin{figure}[h!]
+    \centering
+    \soundcloud \hspace*{0.5mm} \href{#1}{\color{RawSienna}{\textsc{#2}}} \hspace*{0.5mm} \soundcloud%
+    \vspace{-5pt}
+    % \vspace*{2mm}
+    % \qrcode[hyperlink, height=0.5in]{#1}
+  \end{figure}
+
+  \IfStrEq{#3}{true}{%
+    \addcontentsline{snd}{section}{#2}
+  }{}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Effet
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\listeffets}{Liste di-z-éffé sonore}
+\newlistof{effets}{eff}{\listeffets}
+
+\NewDocumentCommand{\effet}{m m O{true}}{%
+  \refstepcounter{effets}
+
+  \begin{figure}[h]
+    \centering
+    \soundcloud \hspace*{0.5mm} \href{#1}{\color{RawSienna}{\textsc{#2}}}\hspace*{0.5mm} \soundcloud%
+  \end{figure}%
+  \vspace{-0pt}
+  \IfStrEq{#3}{true}{%
+    \addcontentsline{eff}{section}{#2}%
+  }{}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Foto
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\listfotos}{Liste di foto}
+\newlistof{fotos}{fot}{\listfotos}
+
+\newcommand{\foto}[2]{
+\refstepcounter{fotos}
+
+\begin{figure}[h]
+\centering
+\instagram \hspace*{0.5mm} \textsc{#2}\hspace*{0.5mm} \instagram\\
+ \vspace*{1mm}
+\qrcode[hyperlink, height=0.5in]{#1}
+\end{figure}
+\addcontentsline{fot}{section}{#2}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ridoiver}{
+%\vspace*{-.55cm}
+\begin{center}
+\raisebox{-.2mm}{\includegraphics[scale=.1]{emoji/ridoIver.png}} {\large\textsc{Se ivre lo rid\'o}} \raisebox{-.2mm}{\includegraphics[scale=.1]{emoji/ridoIver.png}}
+\end{center}
+}
+
+\newcommand{\ridocliou}{\vspace*{15pt}
+\begin{center}
+\raisebox{.1mm}{\includegraphics[scale=.07]{emoji/tsilateila.png}} {\large \textsc{tsi la tèila}}  \raisebox{.1mm}{\includegraphics[scale=.07]{emoji/tsilateila.png}}
+\end{center}
+\vspace*{.25cm}
+}
+
+\addto\captionsfrench{\renewcommand{\contentsname}%
+    {Pièse}%
+}
+\newcommand{\moublotitlename}{Moublo}
+\newcommand{\moublo}{\newpage \centering\textsc{\moublotitlename}}
+
+%%%%%%%%%%%%%%%%
+%%% File sty personali  %%%
+
+%%% Emoticons %%%
+\usepackage{emoticons}
+
+%%%%%%%%%%%%%%%%
+
+%%% Collegamenti ipertestuali %%%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=Brown,
+    urlcolor = Sepia
+}
+
+
+
