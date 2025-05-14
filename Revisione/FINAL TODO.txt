@@ -12,24 +12,25 @@ DC = da completare
 2016 - 
 2017 - 
 2018 - 
-2019 - 
+2019 - LF
+
+\acte mette la pagine in basso e toglie i titoletti
+
+check di tutti i comme vs comèn (2018-2019 ok)
+
+consiglio regionale / comunale ... tutto maiuscolo (vedi sito vda) Maiuscolo consiglio e poi miniusco reg o com
 
 Inserire almeno 1 emoticons per pagina (da fare una volta scelta la dimensione della pagina)
-- emoticons (ok fino a pagine  ) + aggiungere a 94
+- emoticons (ok fino a pagine  ) + aggiungere a 103
 
-- aggiungere comanda vouése foua campe : << testo >>... anzi... valutare come dire voci fuori campo... campo non è proprio campe... sarebbe tsan. Vouése foua tsan? Vouése foua scène-  Vouèse dèi la réjì?
-oppure personaggio VOICE OFF o vouése esterne.. qualcosa di simile.
+Se aleummon / Se bèichon ->  teuppe/ lemie
+
+- aValutare come dire voci fuori campo...  Vouése foua scène-  Vouèse dèi la réjì? oppure personaggio VOICE OFF o vouése esterne.. qualcosa di simile. - Foua vouése? Vouése esterne (V.E.)
 
 2019 ok link ma: mettere i video su fb anche su canale yt (da valutare se vale la pena)
 
 QUANDO SI FA CHECK FINALE, elencare gli oggetti di scena e scenografie per poi fare controllo con sezione Scénographie
 
-
-
-
-Alla pièce 2013 aggiungere gli sfondi della trasmissione nell'elenco delle scenografie.... (Dire solo che in ogni scena c'è la scritta)
-
-Tutti i titoli e le foto delle pièce devono aprisi su pagine dispari (usare \cleardoublepage )
 
 Quando ci sono musiche nella pièce mettere nei Deri le Rido il nome di chi lo ha messo.. (tipo in alcuni casi giada e jasmine sono state messe come souffleur, ma facevano anche musiche)
 

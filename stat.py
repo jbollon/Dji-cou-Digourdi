@@ -3,17 +3,17 @@ from collections import defaultdict, Counter
 
 # === CONFIGURA QUI I TUOI FILE .TEX ===
 tex_files = [
-    #"2009.tex",
-    #"2010.tex",
-    #"2011.tex",
-    #"2012.tex",
-    #"2013.tex",
-    #"2014.tex",
-    #"2015.tex",
-    #"2016.tex",
-    #"2017.tex",
-    "2018.tex",
-    #"2019.tex"
+   "2009.tex",
+   "2010.tex",
+   "2011.tex",
+   "2012.tex",
+   "2013.tex",
+   "2014.tex",
+   "2015.tex",
+   "2016.tex",
+   "2017.tex",
+   "2018.tex",
+   "2019.tex"
 ]
 
 # === CONFIGURA PAROLE DA ESCLUDERE (stopwords) ===
@@ -83,12 +83,8 @@ top_words = cumulative_counter.most_common(20)
 
 # === OUTPUT IN FILE LATEX ===
 with open("stat.tex", "w", encoding="utf-8") as out:
-    out.write(r"""\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage{booktabs}
-\begin{document}
-
-\section*{Top 10 parole più frequenti (escluse parole brevi e comuni)}
+    out.write(r"""
+\paragraph*{Top 10 parole più frequenti (escluse parole brevi e comuni)}
 
 \begin{tabular}{ll}
 \toprule
@@ -100,7 +96,6 @@ with open("stat.tex", "w", encoding="utf-8") as out:
     out.write(r"""\bottomrule
 \end{tabular}
 
-\end{document}
 """)
 
 print("[✓] File 'stat.tex' generato con successo.")

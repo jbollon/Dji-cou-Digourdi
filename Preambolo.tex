@@ -1,6 +1,7 @@
 %%% Font, caratteri speciali e lingua %%% 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{booktabs}
 \usepackage[french]{babel}
 
 %%% Per ringraziamenti a forma di cuore
@@ -18,7 +19,7 @@
 %%%%%%%%%%%%%%%%
 
 \usepackage{graphicx}
-\usepackage[paperheight=9in, paperwidth=6in]{geometry}
+\usepackage[paperheight=9in, paperwidth=6in, twoside]{geometry}
 %\usepackage[a4paper]{geometry}
 \usepackage{afterpage}
 \usepackage[svgnames, dvipsnames]{xcolor}
@@ -202,8 +203,8 @@
 % Dérì le Rido
 %%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\DeriLeRido}{
-%\newpage
-\cleardoublepage 
+\newpage
+%\cleardoublepage 
 \thispagestyle{empty}
 \begin{center}
 \textbf{\LARGE Derì le rid\'o}
@@ -222,6 +223,14 @@
 \end{center}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%  
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Foua vouése
+%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Fv}[1]{
+Vouése derì le rid\'o \vouese\ : \og #1 \fg . 
+}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % VIDEO
