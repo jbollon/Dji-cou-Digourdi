@@ -16,5 +16,9 @@
 *.e
 *.snd
 *.s
-*.foto
+*.fot
 *.ex
+*.eff
+*.vds
+temp_*
+test*
