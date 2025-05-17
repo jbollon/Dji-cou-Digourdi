@@ -9,9 +9,9 @@
 \begin{document}
 
 \frontmatter
-%\input{Intro/Copertina}
-%\clearpage
-%\thispagestyle{empty}
+\input{Intro/Copertina}
+\clearpage
+\thispagestyle{empty}
 % Ved. p.34 per ordine su dispensa latex (anche per copyright : latex, emoticon)
 
 \input{Colophon}
@@ -44,10 +44,24 @@
 
 \backmatter
 \chapter*{Appendix}
-\subsection*{github}
-qrcode con versione online + spiegazione perché è utile versione online (mantenere il codice e il pdf ha tutti i link)
+\pagestyle{plain}
+\subsection*{Versione digitale}
+Nel seguente \textit{repository} :
+\begin{center}
+\centering
+\github\ \hspace*{0.5mm} \href{\detokenize{https://github.com/jbollon/Dji-cou-Digourdi}}{\color{RawSienna}{\textsc{GitHub}}} \hspace*{0.5mm} \github\\
+%\vspace{-5pt}
+ \vspace*{2mm}
+\qrcode[hyperlink, height=0.5in]{\detokenize{https://github.com/jbollon/Dji-cou-Digourdi}}
+\end{center}
+\noindent è archiviato tutto il codice utilizzato per realizzare Dji cou Digourdì, nonché la sua versione in pdf. Dalla versione digitale è possibile accedere ai file originali utilizzati dalla Digourdì per riprodurre gli effetti sonori e i brani musicali all'interno delle pièce. Sarà sufficiente cliccare sul titolo dell'effetto sonoro o del brano.
+Inoltre, la versione digitale ci consentirà di  tenere aggiornati i link e i qrcode di tutti i contenuti multimediali, qualora venissero modificati per qualsivoglia ragione.
 
 \subsection*{Statistique}
-\input{stat.tex}
+
+%\input{stat.tex}
+\input{stat_attori.tex}
+
+%AGGIUNGERE STAT per attore (quello con più batture, con più parole, con meno parole, con meno battute) Gli attori con più presenze
 
 \end{document}
