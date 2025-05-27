@@ -8,6 +8,8 @@ tex_files = [
     "2014.tex", "2015.tex", "2016.tex", "2018.tex", "2019.tex"
 ]
 
+time_p = [36, 42, 50, 44, 54, 34, 74, 68, 59, 61]
+
 # Funzione per normalizzare accenti LaTeX, inclusi formati \"e e \"{e}
 def normalize_latex_accents(text):
     replacements = {
@@ -55,6 +57,7 @@ exclude_w = ['que', 'eun', 'eunna', 'can', 'avouì', 'euncó', 'ara', 'senque',
              'dou', 'trèi', 'ouette', 'voualà',
              'cou', 'ren', 'vouè',
              'bièn', 'bon',
+             #'hélène', 'twitter', 'paolo', 'giulio', 'selmo', 'gène', 'tanteun',
              #'djeusto', 'dzen', 'dzenta', ### adj
              'oueu', 'todzor', 'aprì', 'inque',
              'ouè',
@@ -62,8 +65,10 @@ exclude_w = ['que', 'eun', 'eunna', 'can', 'avouì', 'euncó', 'ara', 'senque',
              #'deu', 'veun', 'vou', 'fièn', 'fiade'
              ]
 
+eff_tot = 0 ; video_tot = 0 ; mus_tot = 0
+
 # Parsing dei file
-for filename in tex_files:
+for kk, filename in enumerate(tex_files):
     if not os.path.exists(filename):
         continue
     with open(filename, 'r', encoding='utf-8') as f:
@@ -72,6 +77,7 @@ for filename in tex_files:
     content = normalize_latex_accents(raw)
     # Estrai titolo
     m_title = title_pattern.search(content)
+
     title = m_title.group(1).strip() if m_title else filename
     
     # Mappa macro -> attore
@@ -95,10 +101,17 @@ for filename in tex_files:
     
     content_piece = re.sub(r'(?s)^.*?(\\act\[Acte I\])', r'\1', content)
     
+    sounds = re.findall(r"\\sound{.*?}{.*?}", content)
+    sounds_false = re.findall(r"\\sound{.*?}{.*?}\[.*?\]", content)
+    
+    effets = re.findall(r"\\effet{.*?}{.*?}", content)
+    effets_false = re.findall(r"\\effet{.*?}{.*?}\[.*?\]", content)
+    
+    videos = re.findall(r"\\StartVideo{.*?}", content)
+    videos = [x.count(',')+1 for x in videos]
+    
     if filename != '2009.tex':
         words_set_ordered = sorted(words_set.items(), key=lambda x: x[1], reverse=True)
-        
-    print(filename)
 
     # Conta battute e parole
     for macro, actor in character_map.items():
@@ -108,7 +121,7 @@ for filename in tex_files:
             actor_stats[actor]['lines'] += 1
             actor_stats[actor]['pieces'].add(title)
             actor_lines[actor] += 1
-            
+            #escludo tutto il testo dentro eventuali comandi, i.e. \direct{}
             sp = re.sub(r'\\[A-Za-z]+\{[^}]*\}|\\[A-Za-z]+', '', sp)
             
             words = re.findall(r'\b\w+\b', sp)
@@ -148,11 +161,21 @@ for filename in tex_files:
     mostl = max(actor_lines.items(), key=lambda x: x[1])[0] if actor_lines else '—'
     mostw = max(actor_words.items(), key=lambda x: x[1])[0] if actor_words else '—'
     mostwp = sorted(words_piece.items(), key=lambda x: x[1])[-4:] if words_piece else '—'
+    n_eff = len(effets) - len(effets_false)
+    n_mus = len(sounds) - len(sounds_false)
+    
     piece_stats[title] = {'lines': piece_lines, 'words': piece_words,
                           'mostwp': mostwp,
+                          'time': time_p[kk],
+                          'n_sounds': n_mus,
+                          'n_effets': n_eff,
+                          'n_video': sum(videos),
                           'n_actors': len(actor_words.keys()),
                           'most_lines_actor': [mostl, actor_lines[mostl]],
                           'most_words_actor': [mostw, actor_words[mostw]]}
+    
+    print(title)
+    eff_tot += n_eff ; video_tot += sum(videos) ; mus_tot += n_mus
      
 
 # Ordinamento
@@ -178,23 +201,32 @@ for actor in actor_stats.keys():
     elif top_w[0][1] != top_w[1][1]:
         actor_stats[actor]['top_w'] = f"{up_first(top_w[0][0])}"
     else:
-        actor_stats[actor]['top_w'] = f""
+        actor_stats[actor]['top_w'] = ""
         
     actor_stats[actor]['n_pièce'] = len(actor_stats[actor]['pieces'])
 
+n_actors = len(actor_stats.keys())
 actor_stats = sorted(actor_stats.items(), key=lambda x: x[0].split(' ')[1]+' '+x[0].split(' ')[0], reverse=False)
+
+
 
 # Generazione output stat_attori.tex
 with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     # Totaloni
-    tot = sum(words_set_all.values())
+    tot_w = sum(words_set_all.values())
+    tot_lines = sum([piece_stats[t]['lines'] for t in piece_stats.keys()])
     out.write(r"""
-\begin{table}[]
+\begin{table}[h]
 \centering
+\caption{Les numéros de Dji cou Digourdì.}
 \begin{tabular}{lr}
-\multicolumn{2}{c}{Tot} \\
     \toprule""")
-    out.write('\nTot parole & ' + f"{tot}" + r' \\')
+    out.write('\nParoles & ' + f"{tot_w}" + r' \\')
+    out.write("\nRépliques\\tablefootnote{ L'ensemble des paroles prononcées par un personnage sans qu'il soit interrompu par un autre (ITA - \\textit{Battuta teatrale}).} & " + f"{tot_lines}" + r' \\')
+    out.write('\nActeurs & ' + f"{n_actors}" + r' \\')
+    out.write('\nVidéos & ' + f"{video_tot}" + r' \\')
+    out.write('\nEffets sonores & ' + f"{eff_tot}" + r' \\')
+    out.write('\nMusiques & ' + f"{mus_tot}" + r' \\')
     out.write(r"""
 \bottomrule
 \end{tabular}%
@@ -202,13 +234,12 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
 
     # Top 10  parole
     out.write(r"""
-\begin{table}[]
+\begin{table}[h]
 \centering
+\caption{Les 10 mots les plus dits, à l'exclusion des articles, adverbes, pronoms, prépositions, verbes auxiliaires et exclamations.}
 \begin{tabular}{lr}
-\multicolumn{2}{c}{Les 10 mots les plus dits} \\
     \toprule
-\multicolumn{1}{l}{\textbf{Mot}} & \textbf{N} \\
-    \midrule""")
+""")
     for a, s in words_set_ordered[:11]:
         out.write('\n\multicolumn{1}{l}{' + f"{up_first(a)}" + '} &' + f"{s}" + r'\\')
     out.write(r"""
@@ -221,26 +252,27 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
 \newpage
 \scriptsize
 \begin{longtable}{llrrr}
-\caption{Tous les acteurs}\\
+\caption{\scriptsize Ce tableau présente tous les acteurs de Dji cou Digourdì, accompagnés de leurs nombre de pièces, répliques, paroles et leurs trois mots les plus fréquemment prononcés (hors articles, adverbes, pronoms, prépositions, verbes auxiliaires et exclamations). L'absence de trois mots s'explique par l'impossibilité d'identifier les trois plus fréquents.}\\
 \toprule
-\textbf{Acteur} & \textbf{Top 3 mots} & \textbf{Pièce} & \textbf{Lignes} & \textbf{Mots} \\
-    \hline""")
+\textbf{Acteurs} & \textbf{Top 3 mots} & \textbf{Pièces} & \textbf{Répliques} & \textbf{Paroles} \\
+    \midrule""")
+    x = 0
     for a, s in actor_stats:
+        x += s['words']
         name = f"{actor_names_display[a]}" + ' &'
         out.write('\n' + name + f"{s['top_w']}" + f" & {s['n_pièce']}" + f" & {s['lines']}" + f" & {s['words']}" + r'\\')
     out.write(r"""
 \bottomrule
 \end{longtable}""")
-  
+    #print(x)
 # Top 6 battute
     out.write(r"""
 \begin{table}[]
 \centering
-\caption{Les 3 acteurs avec plus de lignes}
+\caption{Les trois acteurs avec plus de répliques.}
 \begin{tabular}{l|r}
 \toprule
-\multicolumn{1}{l}{\textbf{Acteur}} & \textbf{Lignes} \\
-\midrule
+\multicolumn{1}{l}{\textbf{Acteur}} & \textbf{Répliques} \\
 """)
     for a, s in lines_sorted[:4]:
         out.write('\n\multicolumn{1}{l}{' + f"{actor_names_display_std[a]}" + '} &' + f"{s['lines']}" + r'\\')
@@ -253,7 +285,7 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \begin{table}[]
 \centering
-\caption{Les 3 acteurs avec plus de mots}
+\caption{Les trois acteurs avec plus de mots prononcés.}
 \begin{tabular}{l|r}
     \toprule
 \multicolumn{1}{l}{\textbf{Acteurs}} & \textbf{Mots} \\
@@ -269,17 +301,18 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \begin{table}[]
 \centering
-\caption{Les 3 acteurs plus présents}
+\caption{Les trois acteurs les plus présents.}
 \begin{tabular}{lr}
     \toprule
-\multicolumn{1}{l}{\textbf{Acteur}} & \textbf{Pièce} \\
+\multicolumn{1}{l}{\textbf{Acteur}} & \textbf{Pièces} \\
     \midrule""")
     for a, s in pieces_sorted[:4]:
         out.write('\n\multicolumn{1}{l}{' + f"{actor_names_display[a]}" + '} &' + f"{len(s['pieces'])}" + r'\\')
     out.write(r"""
 \bottomrule
 \end{tabular}%
-\end{table}""")
+\end{table}
+\newpage""")
 
     if True:
         # Tab per pièce
@@ -291,29 +324,69 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
             out.write(r"""
     \begin{table}[]
     \centering
-    %\caption{desc...}
+    \caption{}
     \begin{tabular}{lr}""")
             out.write(r"""\toprule""")
             out.write('\multicolumn{2}{c}{' + f"{t}" + '} \\\\')
             out.write(r"""\midrule""")
             
-            out.write("\n\multicolumn{1}{l}{Nombre d'acteur}&" + f"{st['n_actors']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Durée (min)}&" + f"{st['time']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Nombre d'acteurs}&" + f"{st['n_actors']}" + r'\\')
             
-            out.write('\n\multicolumn{1}{l}{Numero totale di parole}&' + f"{st['words']}" + r'\\')
-            out.write('\n\multicolumn{1}{l}{Numero totale di battute}&' + f"{st['lines']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Nombre de vidéos}&" + f"{st['n_video']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Nombre de musiques}&" + f"{st['n_sounds']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Nombre de effets sonores}&" + f"{st['n_effets']}" + r'\\')
+            
+            out.write('\n\multicolumn{1}{l}{Nombre de paroles}&' + f"{st['words']}" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Nombre de répliques}&' + f"{st['lines']}" + r'\\')
             
             n = actor_names_display[st['most_words_actor'][0]]
-            out.write('\n\multicolumn{1}{l}{Attore con più parole}&' + f"{n} ({st['most_words_actor'][1]})" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Acteur avec plus de paroles}&' + f"{n} ({st['most_words_actor'][1]})" + r'\\')
             
             n = actor_names_display[st['most_lines_actor'][0]]
-            out.write('\n\multicolumn{1}{l}{Attore con più battute}&' + f"{n} ({st['most_lines_actor'][1]})" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Acteur avec plus de répliques}&' + f"{n} ({st['most_lines_actor'][1]})" + r'\\')
             
-            out.write('\n\multicolumn{1}{l}{Parole più usate}&' + f"{mostwp}" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Mots les plus prononcés}&' + f"{mostwp}" + r'\\')
         
             out.write(r"""
     \bottomrule
     \end{tabular}%
     \end{table}""")
+    
+    
+    # Stat top/flop pièce
+    longest = sorted(piece_stats.items(), key=lambda x: x[1]['time'], reverse=True)[0]
+    longest = longest[0] + f" ({str(longest[1]['time'])})"
+    
+    shortest = sorted(piece_stats.items(), key=lambda x: x[1]['time'], reverse=True)[-1]
+    shortest = shortest[0] + f" ({str(shortest[1]['time'])})"
+    
+    top_rep_min = sorted(piece_stats.items(), key=lambda x: x[1]['lines']/x[1]['time'], reverse=True)[0]
+    top_rep_min = top_rep_min[0] + f" ({round(top_rep_min[1]['lines']/top_rep_min[1]['time'], 1)})"
+    
+    flop_rep_min = sorted(piece_stats.items(), key=lambda x: x[1]['lines']/x[1]['time'], reverse=True)[-1]
+    flop_rep_min = flop_rep_min[0] + f" ({round(flop_rep_min[1]['lines']/flop_rep_min[1]['time'], 1)})"
+    
+    top_w_min = sorted(piece_stats.items(), key=lambda x: x[1]['words']/x[1]['time'], reverse=True)[0]
+    top_w_min = top_w_min[0] + f" ({round(top_w_min[1]['words']/top_w_min[1]['time'], 1)})"
+    
+    flop_w_min = sorted(piece_stats.items(), key=lambda x: x[1]['words']/x[1]['time'], reverse=True)[-1]
+    flop_w_min = flop_w_min[0] + f" ({round(flop_w_min[1]['words']/flop_w_min[1]['time'], 1)})"
+    
+    out.write(r"""
+\begin{table}[h]
+\centering
+\caption{Résumé des pièces.}
+\begin{tabular}{lr}
+    \toprule""")
+    out.write('\nLa plus longue (min) & ' + f"{longest}" + r' \\')
+    out.write('\nLa plus courte (min) & ' + f"{shortest}" + r' \\')
+    out.write('\nTop répliques/min & ' + f"{top_rep_min}" + r' \\')
+    out.write('\nTop paroles/min & ' + f"{top_w_min}" + r' \\')
+    out.write(r"""
+\bottomrule
+\end{tabular}%
+\end{table}""")
          
 
 print("[✓] File 'stat_attori.tex' generato con successo.")
