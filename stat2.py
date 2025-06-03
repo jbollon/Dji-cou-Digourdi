@@ -52,17 +52,22 @@ words_set_all = dict()
 exclude_w = ['que', 'eun', 'eunna', 'can', 'avouì', 'euncó', 'ara', 'senque',
              'lèi', 'comme', 'comèn', 'adón', 'maque', 'seutta', 'seuilla',
              'fran', 'tcheu', 'dza', 'totte', 'pequé', 'sise', 'pamì', 'salla',
-             'eugn', 'tan', 'tcheutte', 'iaou', 'qui', 'tchica', 'mimo',
+             'eugn', 'tan', 'tcheutte', 'iaou', 'qui', 'tchica', 'mimo', 'deun',
              'noutro', 'naaa', "wow", 'praou', 'seutte', 'perqué', 'tcheut',
-             'dou', 'trèi', 'ouette', 'voualà',
+             'dou', 'trèi', 'ouette', 'voualà', 'pouèi',
              'cou', 'ren', 'vouè',
-             'bièn', 'bon',
-             #'hélène', 'twitter', 'paolo', 'giulio', 'selmo', 'gène', 'tanteun',
+             'bièn', 'bon', 'amoddo',
+             'hélène', 'twitter', 'paolo', 'giulio', 'selmo', 'gène', 'tanteun', 'vilma', 'bruno',
+             'tsarvensoù', 'pollein', 'digourdì', 'touéno', 'feleunna', 'marie', 'rémy',
+             'hermann', 'sandrino', 'alice',
              #'djeusto', 'dzen', 'dzenta', ### adj
              'oueu', 'todzor', 'aprì', 'inque',
              'ouè',
-             'sen', 'son', 'ouèide', 'ouite', 'nen', 'ayè', 'ouyavade'
-             #'deu', 'veun', 'vou', 'fièn', 'fiade'
+             'sen', 'son', 'ouèide', 'ouite', 'nen', 'ayè', 'ouyavade', 'soplé',
+             'deu', 'veun', 'vou', 'fièn', 'fiade', 'beutta', 'fenì', 'vère', 'payo',
+             'bèye', 'gagnà', 'comprèi', 'itedjà', 'veure', 'lavave', 'vouillade',
+             #
+             'mersì', 'bondzor', 'bonsouar'
              ]
 
 eff_tot = 0 ; video_tot = 0 ; mus_tot = 0
@@ -127,7 +132,7 @@ for kk, filename in enumerate(tex_files):
             words = re.findall(r'\b\w+\b', sp)
             for w in words:
                 w = w.lower()
-                
+
                 if w in words_set_all.keys():
                     words_set_all[w] += 1
                 else:
@@ -139,7 +144,7 @@ for kk, filename in enumerate(tex_files):
                         words_set[w] += 1
                     else:
                         words_set[w] = 1
-                        
+   
                     if w in words_piece.keys():
                         words_piece[w] += 1
                     else:
@@ -165,6 +170,7 @@ for kk, filename in enumerate(tex_files):
     n_mus = len(sounds) - len(sounds_false)
     
     piece_stats[title] = {'lines': piece_lines, 'words': piece_words,
+                          'set_words': words_piece,
                           'mostwp': mostwp,
                           'time': time_p[kk],
                           'n_sounds': n_mus,
@@ -179,6 +185,30 @@ for kk, filename in enumerate(tex_files):
      
 
 # Ordinamento
+'''
+words_at_least1 = dict()
+checked_word = []
+for tit in piece_stats.keys():
+    set_words = sorted(piece_stats[tit]['set_words'].items(), key=lambda x: x[1], reverse=True) if piece_stats[tit]['set_words'] else '—'
+    
+    for w in set_words:
+        k = w[0] ; v = w[1]
+        if k not in checked_word:
+            checked_word.append(k)
+            check = 0
+            for tit_j in piece_stats.keys():
+                if tit != tit_j:
+                    if k in piece_stats[tit_j]['set_words'].keys():
+                        check += 1
+                        v = min(v, piece_stats[tit_j]['set_words'][k])
+                    else:
+                        break
+            if check >= 9:     
+                words_at_least1[k] = v
+        
+    '''    
+
+
 #for k in actor_stats.keys():
 #    actor_stats[k]['wl'] = round(actor_stats[k]['words'] / actor_stats[k]['lines'] * len(actor_stats[k]['pieces']), 1)
 lines_sorted = sorted(actor_stats.items(), key=lambda x: x[1]['lines'], reverse=True)
@@ -211,18 +241,24 @@ actor_stats = sorted(actor_stats.items(), key=lambda x: x[0].split(' ')[1]+' '+x
 
 
 # Generazione output stat_attori.tex
-with open('stat_attori.tex', 'w', encoding='utf-8') as out:
+with open('Appendice/stat_attori.tex', 'w', encoding='utf-8') as out:
     # Totaloni
     tot_w = sum(words_set_all.values())
     tot_lines = sum([piece_stats[t]['lines'] for t in piece_stats.keys()])
     out.write(r"""
+\vfill
 \begin{table}[h]
 \centering
 \caption{Les numéros de Dji cou Digourdì.}
 \begin{tabular}{lr}
     \toprule""")
     out.write('\nParoles & ' + f"{tot_w}" + r' \\')
-    out.write("\nRépliques\\tablefootnote{ L'ensemble des paroles prononcées par un personnage sans qu'il soit interrompu par un autre (ITA - \\textit{Battuta teatrale}).} & " + f"{tot_lines}" + r' \\')
+    out.write('\nParoles non répétés & ' + f"{len(words_set_all.keys())}" + r' \\')
+
+    #out.write('\nMots & ' + f"{sum(words_set.values())}" + r' \\')
+    #out.write('\nMots non répétés & ' + f"{len(words_set.keys())}" + r' \\')
+    
+    out.write("\nRépliques & " + f"{tot_lines}" + r' \\')
     out.write('\nActeurs & ' + f"{n_actors}" + r' \\')
     out.write('\nVidéos & ' + f"{video_tot}" + r' \\')
     out.write('\nEffets sonores & ' + f"{eff_tot}" + r' \\')
@@ -230,13 +266,16 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \bottomrule
 \end{tabular}%
-\end{table}""")
+\end{table}
+\vfill""")
 
     # Top 10  parole
     out.write(r"""
+\newpage
+\vfill
 \begin{table}[h]
 \centering
-\caption{Les 10 mots les plus dits, à l'exclusion des articles, adverbes, pronoms, prépositions, verbes auxiliaires et exclamations.}
+\caption{Les 10 mots les plus prononcés.}
 \begin{tabular}{lr}
     \toprule
 """)
@@ -245,14 +284,15 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \bottomrule
 \end{tabular}%
-\end{table}""")
+\end{table}
+\vfill""")
 
     # Tous le acteurs
     out.write(r"""
 \newpage
 \scriptsize
 \begin{longtable}{llrrr}
-\caption{\scriptsize Ce tableau présente tous les acteurs de Dji cou Digourdì, accompagnés de leurs nombre de pièces, répliques, paroles et leurs trois mots les plus fréquemment prononcés (hors articles, adverbes, pronoms, prépositions, verbes auxiliaires et exclamations). L'absence de trois mots s'explique par l'impossibilité d'identifier les trois plus fréquents.}\\
+\caption{\small Ce tableau présente tous les acteurs de Dji cou Digourdì, accompagnés de leurs nombre de pièces, répliques, paroles et leurs trois mots les plus fréquemment prononcés. L'absence de trois mots s'explique par l'impossibilité d'identifier les trois plus fréquents.}\\
 \toprule
 \textbf{Acteurs} & \textbf{Top 3 mots} & \textbf{Pièces} & \textbf{Répliques} & \textbf{Paroles} \\
     \midrule""")
@@ -260,6 +300,7 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     for a, s in actor_stats:
         x += s['words']
         name = f"{actor_names_display[a]}" + ' &'
+
         out.write('\n' + name + f"{s['top_w']}" + f" & {s['n_pièce']}" + f" & {s['lines']}" + f" & {s['words']}" + r'\\')
     out.write(r"""
 \bottomrule
@@ -279,7 +320,8 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \bottomrule
 \end{tabular}%
-\end{table}""")
+\end{table}
+\newpage""")
     
     # Top 6 parole
     out.write(r"""
@@ -288,7 +330,7 @@ with open('stat_attori.tex', 'w', encoding='utf-8') as out:
 \caption{Les trois acteurs avec plus de mots prononcés.}
 \begin{tabular}{l|r}
     \toprule
-\multicolumn{1}{l}{\textbf{Acteurs}} & \textbf{Mots} \\
+\multicolumn{1}{l}{\textbf{Acteurs}} & \textbf{Paroles} \\
     \midrule""")
     for a, s in words_sorted[:4]:
         out.write('\n\multicolumn{1}{l}{' + f"{actor_names_display_std[a]}" + '} &' + f"{s['words']}" + r'\\')
