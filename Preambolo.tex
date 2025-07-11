@@ -23,7 +23,7 @@
 %%%%%%%%%%%%%%%%
 
 \usepackage{graphicx}
-\usepackage[paperheight=10in, paperwidth=7in, %bindingoffset=0.65in,
+\usepackage[paperheight=9in, paperwidth=6in, %bindingoffset=0.65in,
 twoside]{geometry}
 %\usepackage[a4paper]{geometry}
 \usepackage{afterpage}
@@ -31,7 +31,7 @@ twoside]{geometry}
 
 \usepackage{pagecolor}
 %\usepackage{gfsdidot}
-\usepackage{charter}%{mathdesign}
+\usepackage[charter]{mathdesign}%{mathdesign}
 %FONT!
 \usepackage{qrcode}
 \usepackage{etoolbox}
@@ -115,7 +115,6 @@ twoside]{geometry}
 \setlength{\aftersceneskip}{10pt}
 \setlength{\aftercasttitleskip}{20pt}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%
 % FOTO COPERTINA
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +129,7 @@ twoside]{geometry}
 \begin{figure}[h]
 \centering
 \whiteshadowbox{
-\includegraphics[height=4cm,keepaspectratio]{#1}
+\includegraphics[height=5cm,keepaspectratio]{#1}
 }
 \end{figure}
 \noindent
@@ -169,6 +168,7 @@ twoside]{geometry}
 % Souvenir
 %%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\souvenir}[2]{
+\cleardoublepage
 \section*{Lo souvenir de l'atteur}
 \og #1\fg{}
 \newline
@@ -191,6 +191,7 @@ twoside]{geometry}
 %%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\Scenographie}{
 \newpage
+\vspace*{-10pt}
 \begin{center}
 \Large
 \textsc{\scenographie\ \textit{Scénographie} \scenographie}
@@ -294,14 +295,15 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 
 \NewDocumentCommand{\sound}{m m O{true}}{%
   \refstepcounter{sounds}
-
+	\vspace*{-2.5pt}
   \begin{figure}[h!]
     \centering
     \soundcloud \hspace*{0.5mm} \href{#1}{\color{RawSienna}{\textsc{#2}}} \hspace*{0.5mm} \soundcloud%
-    \vspace{-5pt}
+ 
     % \vspace*{2mm}
     % \qrcode[hyperlink, height=0.5in]{#1}
   \end{figure}%
+  \vspace*{-7.5pt}
 
   \IfStrEq{#3}{true}{%
     \addcontentsline{snd}{section}{#2}

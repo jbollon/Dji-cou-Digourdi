@@ -292,7 +292,7 @@ with open('Appendice/stat_attori.tex', 'w', encoding='utf-8') as out:
 \newpage
 \scriptsize
 \begin{longtable}{llrrr}
-\caption{\small Ce tableau présente tous les acteurs de Dji cou Digourdì, accompagnés de leurs nombre de pièces, répliques, paroles et leurs trois mots les plus fréquemment prononcés. L'absence de trois mots s'explique par l'impossibilité d'identifier les trois plus fréquents.}\\
+\caption{\small Ce tableau présente tous les acteurs de Dji Cou Digourdì, accompagnés par leurs nombre de participation aux pièces, répliques, paroles et leurs trois mots les plus fréquemment prononcés. L'absence de trois mots s'explique par l'impossibilité d'identifier les trois plus fréquents.}\\
 \toprule
 \textbf{Acteurs} & \textbf{Top 3 mots} & \textbf{Pièces} & \textbf{Répliques} & \textbf{Paroles} \\
     \midrule""")
@@ -310,7 +310,7 @@ with open('Appendice/stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \begin{table}[]
 \centering
-\caption{Les trois acteurs avec plus de répliques.}
+\caption{Les trois acteurs comptant le plus de répliques.}
 \begin{tabular}{l|r}
 \toprule
 \multicolumn{1}{l}{\textbf{Acteur}} & \textbf{Répliques} \\
@@ -327,7 +327,7 @@ with open('Appendice/stat_attori.tex', 'w', encoding='utf-8') as out:
     out.write(r"""
 \begin{table}[]
 \centering
-\caption{Les trois acteurs avec plus de mots prononcés.}
+\caption{Les trois acteurs comptant le plus de mots prononcés.}
 \begin{tabular}{l|r}
     \toprule
 \multicolumn{1}{l}{\textbf{Acteurs}} & \textbf{Paroles} \\
@@ -377,16 +377,16 @@ with open('Appendice/stat_attori.tex', 'w', encoding='utf-8') as out:
             
             out.write("\n\multicolumn{1}{l}{Nombre de vidéos}&" + f"{st['n_video']}" + r'\\')
             out.write("\n\multicolumn{1}{l}{Nombre de musiques}&" + f"{st['n_sounds']}" + r'\\')
-            out.write("\n\multicolumn{1}{l}{Nombre de effets sonores}&" + f"{st['n_effets']}" + r'\\')
+            out.write("\n\multicolumn{1}{l}{Nombre d'effets sonores}&" + f"{st['n_effets']}" + r'\\')
             
             out.write('\n\multicolumn{1}{l}{Nombre de paroles}&' + f"{st['words']}" + r'\\')
             out.write('\n\multicolumn{1}{l}{Nombre de répliques}&' + f"{st['lines']}" + r'\\')
             
             n = actor_names_display[st['most_words_actor'][0]]
-            out.write('\n\multicolumn{1}{l}{Acteur avec plus de paroles}&' + f"{n} ({st['most_words_actor'][1]})" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Acteur avec le plus de paroles}&' + f"{n} ({st['most_words_actor'][1]})" + r'\\')
             
             n = actor_names_display[st['most_lines_actor'][0]]
-            out.write('\n\multicolumn{1}{l}{Acteur avec plus de répliques}&' + f"{n} ({st['most_lines_actor'][1]})" + r'\\')
+            out.write('\n\multicolumn{1}{l}{Acteur avec le plus de répliques}&' + f"{n} ({st['most_lines_actor'][1]})" + r'\\')
             
             out.write('\n\multicolumn{1}{l}{Mots les plus prononcés}&' + f"{mostwp}" + r'\\')
         
