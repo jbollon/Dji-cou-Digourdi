@@ -23,8 +23,14 @@
 %%%%%%%%%%%%%%%%
 
 \usepackage{graphicx}
-\usepackage[paperheight=9in, paperwidth=6in, %bindingoffset=0.65in,
+\usepackage[paperheight=9in, paperwidth=6in, %showframe, verbose, %bindingoffset=0in,
+inner=18.5mm, outer=26mm,
+top=25mm, bottom=37mm,
+%inner=18mm, outer=27mm,
+%top=27.5mm, bottom=41mm,
+%includehead, includefoot, heightrounded,
 twoside]{geometry}
+
 %\usepackage[a4paper]{geometry}
 \usepackage{afterpage}
 \usepackage[svgnames, dvipsnames]{xcolor}
@@ -129,7 +135,7 @@ twoside]{geometry}
 \begin{figure}[h]
 \centering
 \whiteshadowbox{
-\includegraphics[height=5cm,keepaspectratio]{#1}
+\includegraphics[height=6cm,keepaspectratio]{#1}
 }
 \end{figure}
 \noindent
@@ -251,7 +257,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 
 \begin{figure}[H]
 %\vspace*{-5pt}
-\StageDir{Teuppe \lemieBa .}
+%\StageDir{Teuppe \lemieBa .}
 \centering
 \foreach \x [count=\i] in {#1} {
  \foreach \y [count=\j] in {#2} {
@@ -269,7 +275,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
  }
 }
 \ifstrempty{#3}%
-    {\StageDir{Lemie \lemieSi .}
+    {%\StageDir{Lemie \lemieSi .}
     {}
 %\vspace*{-5pt}
 }%
@@ -277,7 +283,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 #3
 \ifstrempty{#3}
     {}
-    {\vspace*{-2em} \StageDir{Lemie \lemieSi .}
+    {%\vspace*{-2em} %\StageDir{Lemie \lemieSi .}
     }
 }
 %%%%%%%%%%%%%%%%%%%%%%%%
