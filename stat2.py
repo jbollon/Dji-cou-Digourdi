@@ -33,9 +33,10 @@ a_character = re.compile(
     r'\\Character\[[^\]]*\]'
     r'\{\s*[^}]+?\s*\}'
     r'\{\s*([^}]+?)\s*\}'
-    r'\{[\s\S]*?\\nameF?\{\s*([^{}]+?(?:\{[^}]*\}[^{}]*)*)\s*\}[\s\S]*?\}',
+    r'\{[\s\S]*?\\nameF?\{\s*\\*([^{}]+?(?:\{[^}]*\}[^{}]*)*)\s*\}[\s\S]*?\}',
     re.DOTALL
 )
+
 name_pattern = re.compile(r'\\nameF?\{([^\}]+)\}')
 direct_pattern = re.compile(r'\\direct\{.*?\}')
 title_pattern = re.compile(r'\\title\{([^\}]+)\}')
@@ -59,11 +60,11 @@ exclude_w = ['que', 'eun', 'eunna', 'can', 'avouì', 'euncó', 'ara', 'senque',
              'bièn', 'bon', 'amoddo',
              'hélène', 'twitter', 'paolo', 'giulio', 'selmo', 'gène', 'tanteun', 'vilma', 'bruno',
              'tsarvensoù', 'pollein', 'digourdì', 'touéno', 'feleunna', 'marie', 'rémy',
-             'hermann', 'sandrino', 'alice',
+             'hermann', 'sandrino', 'alice', 'john', 'martini', 'pascal', 'dorina',
              #'djeusto', 'dzen', 'dzenta', ### adj
              'oueu', 'todzor', 'aprì', 'inque',
              'ouè',
-             'sen', 'son', 'ouèide', 'ouite', 'nen', 'ayè', 'ouyavade', 'soplé',
+             'sen', 'son', 'ouèide', 'ouite', 'nen', 'ayè', 'ouyavade', 'soplé', 'iye',
              'deu', 'veun', 'vou', 'fièn', 'fiade', 'beutta', 'fenì', 'vère', 'payo',
              'bèye', 'gagnà', 'comprèi', 'itedjà', 'veure', 'lavave', 'vouillade',
              #
@@ -139,6 +140,9 @@ for kk, filename in enumerate(tex_files):
                     words_set_all[w] = 1
                 
                 if len(w) > 2 and w not in exclude_w:
+                    
+                    if w == 'Iye':
+                        a=1
                     
                     if w in words_set.keys():
                         words_set[w] += 1
