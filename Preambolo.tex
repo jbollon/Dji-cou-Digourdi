@@ -129,7 +129,7 @@ twoside]{geometry}
 \newcommand{\fotocopertina}[4]{
 \cleardoublepage 
 %\newpage
-\vspace*{\fill}
+%\vspace*{\fill}
 \begin{center}
 \textbf{\LARGE Le Digourdì di #4}
 \end{center}
@@ -139,21 +139,26 @@ twoside]{geometry}
 \whiteshadowbox{
 \includegraphics[height=6cm,keepaspectratio]{#1}
 }
+\begin{center}
+\textbf{Drette}\\ \textit{#2.}
+\end{center}
+%\newline
+%\newline
+\begin{center}
+\textbf{Achouatoù}\\ \textit{#3.}
+\end{center}
 \end{figure}
-\noindent
-\textbf{Drette}: \textit{#2.}
-\newline
-\newline
-\textbf{Achouatoù}: \textit{#3.}
+
+
 }
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % LINK PIESE
 %%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\LinkPiese}[3]{
-\vspace*{\fill}
-\begin{figure}[h]
+\newcommand{\LinkPiese}[4]{
+%\vspace*{\fill}
+\begin{figure}[!h]
 \centering
 \foreach \x [count=\i] in {#1} {
  \foreach \y [count=\j] in {#2} {
@@ -162,13 +167,13 @@ twoside]{geometry}
   \centering
     \video\hspace*{0.5mm} \textsc{\x}\hspace*{0.5mm} \video\\
  \vspace*{2mm}
-\qrcode[hyperlink, height=0.75in]{\y}
+\qrcode[hyperlink, height=#4 in]{\y}
   \end{subfigure}%
    \fi
  }
 }
 \end{figure}
-\vspace*{\fill}
+%\vspace*{\fill}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -177,6 +182,7 @@ twoside]{geometry}
 %%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\souvenir}[2]{
 %\cleardoublepage
+\newpage
 \section*{Lo souvenir de l'atteur}
 \og #1\fg{}
 \newline
