@@ -14,6 +14,10 @@
 \usepackage{shapepar}
 \usepackage{lipsum} % For placeholder text
 
+%%% ridurre spazioe prima dell'indice
+%\usepackage{tocloft}
+%\setlength{\cftbeforetoctitleskip}{-0.0cm}
+
 %%% simbolo mail
 \usepackage{fontawesome}
 
@@ -25,9 +29,11 @@
 %%%%%%%%%%%%%%%%
 
 \usepackage{graphicx}
-\usepackage[paperheight=9in, paperwidth=6in, showframe, verbose, %bindingoffset=0in,
-inner=18.5mm, outer=26mm,
-top=25mm, bottom=37mm,
+\usepackage[paperheight=216mm,%#9in,
+paperwidth=154mm,%6in,
+%showframe, verbose, %bindingoffset=0in,
+inner=13.0mm, outer=26mm,
+top=22mm, bottom=31mm,
 %inner=18mm, outer=27mm,
 %top=27.5mm, bottom=41mm,
 %includehead, includefoot, heightrounded,
@@ -257,7 +263,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 % VIDEO
 %%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{float}
-\newcommand{\listvideos}{Liste di \textit{vidéo}}
+\newcommand{\listvideos}{\vspace*{-0.0cm}Liste di \textit{vidéo}}
 \newlistof{videos}{vds}{\listvideos}
 
 \newcommand{\StartVideo}[3]{
@@ -304,7 +310,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 \usepackage{xparse}
 \usepackage{xstring}
 
-\newcommand{\listsounds}{Liste di mezeucque}
+\newcommand{\listsounds}{\vspace*{-0.0cm}Liste di mezeucque}
 \newlistof{sounds}{snd}{\listsounds}
 
 \NewDocumentCommand{\sound}{m m O{true}}{%
@@ -328,7 +334,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Effet
 %%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\listeffets}{Liste di-z-éffé sonore}
+\newcommand{\listeffets}{\vspace*{-0.0cm}Liste di-z-éffé sonore}
 \newlistof{effets}{eff}{\listeffets}
 
 \NewDocumentCommand{\effet}{m m O{true}}{%
@@ -348,7 +354,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Foto
 %%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\listfotos}{Liste di foto}
+\newcommand{\listfotos}{\vspace*{-0.0cm}Liste di foto}
 \newlistof{fotos}{fot}{\listfotos}
 
 \newcommand{\foto}[2]{
@@ -379,7 +385,7 @@ Vouése derì le rid\'o \vouese\ : \og #1 \fg .
 }
 
 \addto\captionsfrench{\renewcommand{\contentsname}%
-    {Tabla di contenù}%
+    {\vspace*{-3mm} Tabla di contenù}%
 }
 \newcommand{\moublotitlename}{Moublo}
 \newcommand{\moublo}{\newpage \centering\textsc{\moublotitlename}}
