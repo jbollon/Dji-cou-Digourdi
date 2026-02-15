@@ -22,4 +22,8 @@
 *.vds
 temp_*
 test*
+*.jpg
+*.JPG
+*.png
+*.pdf
 Promozione/

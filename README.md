@@ -1,6 +1,6 @@
 # 📘 Dji cou Digourdì
 
-> Libro scritto in LaTeX – Codice con tutti i diritti riservati, PDF condivisibile (ma non stampabile)
+> Libro scritto in LaTeX – Codice con tutti i diritti riservati, [PDF](https://drive.google.com/file/d/1oIiPzOIeQmUoqJxObddHLJLkSi1p0LtR/view?usp=sharing) condivisibile (ma non stampabile)
 
 ---
 
