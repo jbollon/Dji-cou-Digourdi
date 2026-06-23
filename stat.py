@@ -10,6 +10,97 @@ tex_files = [
 
 time_p = [36, 42, 50, 44, 54, 34, 74, 68, 59, 61]
 
+def skip_ws(text, i):
+    while i < len(text) and text[i].isspace():
+        i += 1
+    return i
+
+def read_balanced(text, i, open_ch, close_ch):
+    if i >= len(text) or text[i] != open_ch:
+        raise ValueError(f"Expected {open_ch} at {i}, got {text[i:i+20]!r}")
+
+    i += 1
+    start = i
+    depth = 1
+
+    while i < len(text):
+        c = text[i]
+
+        # salta escape tipo \{ \} \\ \[ \]
+        if c == '\\':
+            i += 2
+            continue
+
+        if c == open_ch:
+            depth += 1
+        elif c == close_ch:
+            depth -= 1
+            if depth == 0:
+                return text[start:i], i + 1
+
+        i += 1
+
+    raise ValueError(f"Unbalanced {open_ch}{close_ch}")
+
+
+
+def extract_character_pairs(text):
+    """
+    Restituisce [(macro, raw_name), ...]
+    dove:
+      - macro = 3° argomento contando anche [ ... ]
+      - raw_name = contenuto di \\name{...} o \\nameF{...}
+    """
+    out = []
+    i = 0
+
+    while True:
+        j = text.find('\\Character[', i)
+        if j == -1:
+            break
+
+        k = j + len('\\Character')
+
+        try:
+            # 1) [LABEL]
+            k = skip_ws(text, k)
+            label, k = read_balanced(text, k, '[', ']')
+
+            # 2) {CODE}
+            k = skip_ws(text, k)
+            code, k = read_balanced(text, k, '{', '}')
+
+            # 3) {MACRO}
+            k = skip_ws(text, k)
+            macro, k = read_balanced(text, k, '{', '}')
+
+            # 4) {DESCRIPTION}
+            k = skip_ws(text, k)
+            desc, k = read_balanced(text, k, '{', '}')
+
+            name_pat = re.compile(r'\\nameF?\s*\{')
+            m = name_pat.search(desc)
+            if m:
+                open_idx = desc.find('{', m.start())
+                raw_name, _ = read_balanced(desc, open_idx, '{', '}')
+                raw_name = re.sub(r'^\s*\\+', '', raw_name).strip()
+                out.append((macro.strip(), raw_name))
+            else:
+                name_pat = re.compile(r'\\\\nameF?\s*\{')
+                m = name_pat.search(desc)
+                if m:
+                    open_idx = desc.find('{', m.start())
+                    raw_name, _ = read_balanced(desc, open_idx, '{', '}')
+                    raw_name = re.sub(r'^\s*\\+', '', raw_name).strip()
+                    out.append((macro.strip(), raw_name))
+
+            i = k
+
+        except ValueError:
+            i = j + 1
+
+    return out
+
 # Funzione per normalizzare accenti LaTeX, inclusi formati \"e e \"{e}
 def normalize_latex_accents(text):
     replacements = {
@@ -30,10 +121,10 @@ def normalize_latex_accents(text):
 
 # Pattern per Character con argomenti annidati e per name/nameF
 a_character = re.compile(
-    r'\\Character\[[^\]]*\]'
-    r'\{\s*[^}]+?\s*\}'
-    r'\{\s*([^}]+?)\s*\}'
-    r'\{[\s\S]*?\\nameF?\{\s*\\*([^{}]+?(?:\{[^}]*\}[^{}]*)*)\s*\}[\s\S]*?\}',
+    r'\\Character\[[^\]]*\]'          # \Character[...]
+    r'\{([^}]*)\}'                    # primo argomento
+    r'\{([^}]*)\}'                    # secondo argomento
+    r'\{.*?\\nameF?\{\s*\\*([^{}]+?)\s*\}.*?\}',  # descrizione con \name o \nameF
     re.DOTALL
 )
 
@@ -88,7 +179,12 @@ for kk, filename in enumerate(tex_files):
     
     # Mappa macro -> attore
     character_map = {}
-    for macro, raw_name in a_character.findall(content):
+    
+    pairs = extract_character_pairs(content)
+    for macro, raw_name in pairs:
+
+        if macro == "ff":
+            a=1
 
         display_name = normalize_latex_accents(raw_name).strip()
         normalized = display_name.lower()
